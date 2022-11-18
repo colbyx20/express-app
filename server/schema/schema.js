@@ -1,4 +1,6 @@
-const {users,professors} = require('../sampleData.js'); // bring int mock data 
+//const {users,professors} = require('../sampleData.js'); // bring int mock data 
+const Professors = require('../models/Professors');
+const Users = require('../models/Users');
 const {GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt, GraphQLBoolean, GraphQLSchema, GraphQLList, buildClientSchema} = require('graphql'); // create a type of each object
 
 //user type 
@@ -25,11 +27,11 @@ const ProfessorType = new GraphQLObjectType({
         privilege:{type:GraphQLInt},
         fieldOfInterest:{type:GraphQLString},
         // adding relationships
-        appointments: {
-            type:UserType,
-            resolve(parent,args){
-               return users.find(user => user.id === parent.userID);
-            }
+        appointments: { type:[GraphQLString]
+            // type:UserType,
+            // resolve(parent,args){
+            //    return Users.findById(parent.)
+            // }
         } 
         
     })
@@ -42,27 +44,27 @@ const RootQuery = new GraphQLObjectType({
         users:{
             type: new GraphQLList(UserType),
             resolve(parent,args){
-                return clients;
+                return Users.find();
             }
         },
         user:{
             type:UserType,
             args:{id:{type:GraphQLID}},
             resolve(parent,args){
-                return users.find(users => users.id === args.id);
+                return Users.findById(args.id);
             }
         },
         professors:{
             type: new GraphQLList(ProfessorType),
             resolve(parent,args){
-                return clients;
+                return Professors.find();
             }
         },
         professor:{
             type:ProfessorType,
             args:{id:{type:GraphQLID}},
             resolve(parent,args){
-                return users.find(professor => professor.id === args.id);
+                return Professors.findById(args.id);
             }
         }
     }
