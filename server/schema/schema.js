@@ -24,7 +24,14 @@ const ProfessorType = new GraphQLObjectType({
         email:{type:GraphQLString},
         privilege:{type:GraphQLInt},
         fieldOfInterest:{type:GraphQLString},
-        appointments: {type:GraphQLList}
+        // adding relationships
+        appointments: {
+            type:UserType,
+            resolve(parent,args){
+               return users.find(user => user.id === parent.userID);
+            }
+        } 
+        
     })
 });
 
