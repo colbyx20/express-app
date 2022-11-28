@@ -28,6 +28,7 @@ const ProfessorType = new GraphQLObjectType({
         privilege:{type:GraphQLInt},
         confirmed:{type:GraphQLBoolean},
         fieldOfInterest:{type:GraphQLString}, 
+        schedule:{type: GraphQLList(GraphQLString)}
     })
 });
 
@@ -60,7 +61,16 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent,args){
                 return Professors.find({});
             }
-        }
+        },
+        // createSchedule:{
+        //     type: ProfessorType,
+        //     args:{id:{type:GraphQLID}, date:{type:GraphQLString}},
+        //     resolve(parent,args){
+        //         const date = new Date(args.date).toISOString(); 
+        //         const isoDate = new Date(date);
+        //         return Professors.findByIdAndUpdate(args.id, {$push:{schedule:isoDate}});
+        //     }
+        // }
     }
     }
 );

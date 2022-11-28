@@ -10,6 +10,7 @@ const ProfessorsSchema = new mongoose.Schema({
     privilege: {type: Number},
     confirmed:{type: Boolean},
     fieldOfInterest:{type:String},
+    schedule:{type: Array}
     // look at 48 minutes to reference an ID from another collection
 
 });
