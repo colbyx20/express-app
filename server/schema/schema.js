@@ -1,5 +1,5 @@
-const {Users} = require('../models/Users');
-const {Professors} = require('../models/Professors');
+const Users = require('../models/Users');
+const Professors = require('../models/Professors');
 const {GraphQLObjectType, GraphQLNonNull,GraphQLID, GraphQLString, GraphQLInt, GraphQLBoolean, GraphQLSchema, GraphQLList} = require('graphql'); // create a type of each object
 
 //user type 
@@ -40,20 +40,22 @@ const ProfessorType = new GraphQLObjectType({
 const RootQuery = new GraphQLObjectType({
     name:'RootQueryType',
     fields:{
+        user:{
+            type: UserType,
+            args:{id: {type:GraphQLID}},
+            resolve(parent,args){
+                return Users.findById(args.id);
+            }
+        },
         users:{
-            type: new GraphQLList(UserType),
+            type: GraphQLList(UserType),
             resolve(parent,args){
-                return Users.find();
+                return Users.find({});
             }
-        },
-        professors:{
-            type: new GraphQLList(ProfessorType),
-            resolve(parent,args){
-                return Professors.find();
-            }
-        },
+        }
     }
-});
+    }
+);
 
 // export as a schema
 module.exports = new GraphQLSchema({
