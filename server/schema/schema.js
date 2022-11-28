@@ -1,11 +1,10 @@
-//const {users,professors} = require('../sampleData.js'); // bring int mock data 
-const Professors = require('../models/Professors');
-const Users = require('../models/Users');
-const {GraphQLObjectType, GraphQLID, GraphQLString, GraphQLInt, GraphQLBoolean, GraphQLSchema, GraphQLList, buildClientSchema} = require('graphql'); // create a type of each object
+const {Users} = require('../models/Users');
+const {Professors} = require('../models/Professors');
+const {GraphQLObjectType, GraphQLNonNull,GraphQLID, GraphQLString, GraphQLInt, GraphQLBoolean, GraphQLSchema, GraphQLList} = require('graphql'); // create a type of each object
 
 //user type 
 const UserType = new GraphQLObjectType({
-    name: "User",
+    name: 'User',
     fields: () => ({
         id: {type:GraphQLID},
         firstname: {type:GraphQLString},
@@ -18,7 +17,7 @@ const UserType = new GraphQLObjectType({
 });
 
 const ProfessorType = new GraphQLObjectType({
-    name: "Professor",
+    name: 'Professor',
     fields: () => ({
         id: {type:GraphQLID},
         firstname: {type:GraphQLString},
@@ -47,26 +46,12 @@ const RootQuery = new GraphQLObjectType({
                 return Users.find();
             }
         },
-        user:{
-            type:UserType,
-            args:{id:{type:GraphQLID}},
-            resolve(parent,args){
-                return Users.findById(args.id);
-            }
-        },
         professors:{
             type: new GraphQLList(ProfessorType),
             resolve(parent,args){
                 return Professors.find();
             }
         },
-        professor:{
-            type:ProfessorType,
-            args:{id:{type:GraphQLID}},
-            resolve(parent,args){
-                return Professors.findById(args.id);
-            }
-        }
     }
 });
 
