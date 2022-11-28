@@ -9,7 +9,7 @@ const ProfessorsSchema = new mongoose.Schema({
     password: {type: String},
     privilege: {type: Number},
     confirmed:{type: Boolean},
-    schedule: {type: Date}
+    fieldOfInterest:{type:String},
     // look at 48 minutes to reference an ID from another collection
 
 });

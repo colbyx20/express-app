@@ -23,16 +23,11 @@ const ProfessorType = new GraphQLObjectType({
         firstname: {type:GraphQLString},
         lastname: {type: GraphQLString},
         email:{type:GraphQLString},
+        login:{type:GraphQLString},
+        password:{type:GraphQLString},
         privilege:{type:GraphQLInt},
-        fieldOfInterest:{type:GraphQLString},
-        // adding relationships
-        appointments: { type:[GraphQLString]
-            // type:UserType,
-            // resolve(parent,args){
-            //    return Users.findById(parent.)
-            // }
-        } 
-        
+        confirmed:{type:GraphQLBoolean},
+        fieldOfInterest:{type:GraphQLString}, 
     })
 });
 
@@ -51,6 +46,19 @@ const RootQuery = new GraphQLObjectType({
             type: GraphQLList(UserType),
             resolve(parent,args){
                 return Users.find({});
+            }
+        },
+        professor:{
+            type: ProfessorType,
+            args:{id: {type:GraphQLID}},
+            resolve(parent,args){
+                return Professors.findById(args.id);
+            }
+        },
+        professors:{
+            type: GraphQLList(ProfessorType),
+            resolve(parent,args){
+                return Professors.find({});
             }
         }
     }
